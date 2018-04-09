@@ -19,20 +19,18 @@ extern vector<double> window_position;				// Œª÷√±Í«©£¨¥Ê¥¢À≥–Ú£∫x, y, width, he
 extern vector<Rect> windowrect;					// Œª÷√±Í«©
 
 
-extern void Getting_Haar_From_frame(Mat& _frame, vector<Point>& _car, Point& f_postion = Point(0, 0), const int& win_width = 200, const int& win_height = 200,
+extern void Getting_Haar_From_frame(Mat& _frame, vector<Point>& _car, CvRTrees& rtree,Point& f_postion = Point(0, 0), const int& win_width = 200, const int& win_height = 200,
 									const int& scale = 20, const int& feat_num = 6349)
 {
 	//Rect dwindow = Rect(0, 0, win_width, win_height);
 	Mat test_data = Mat(1, 6349, CV_32FC1);
-	Mat data_class = Mat(1, 1, CV_32FC1);
-	data_class.at<float>(0, 0) = 1;
 	for (float x = 0; x <= _frame.cols - win_width; x = x + scale) 
 	{
 		for (float y = 0; y <= _frame.rows - win_height; y = y + scale)
 		{
 			Rect dwindow = Rect(x, y, win_width, win_height);
 			Mat frame_detect = _frame(dwindow);
-
+			Point pos = Point(x, y);
 
 
 
@@ -127,6 +125,15 @@ extern void Getting_Haar_From_frame(Mat& _frame, vector<Point>& _car, Point& f_p
 							cout << i << endl;
 						}
 						test_data.at<float>(0, i) = m_feat;
+					}
+
+
+					float result = rtree.predict(test_data, Mat());
+
+
+					if (fabs(result - 1) <= FLT_EPSILON)
+					{
+						_car.push_back(pos);
 					}
 
 			}

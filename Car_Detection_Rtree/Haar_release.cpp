@@ -13,10 +13,10 @@ HaarFeature::HaarFeature(Rect& rect, int& type, int& size)
 	{
 	case 0:
 	{
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 1 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  1 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
 		m_weights.push_back(-1.f);
 		m_weights.push_back(2.f);
 		m_weights.push_back(0.f);
@@ -25,10 +25,10 @@ HaarFeature::HaarFeature(Rect& rect, int& type, int& size)
 	}
 	case 1:
 	{
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
 		m_weights.push_back(-1.f);
 		m_weights.push_back(2.f);
 		m_weights.push_back(0.f);
@@ -37,10 +37,10 @@ HaarFeature::HaarFeature(Rect& rect, int& type, int& size)
 	}
 	case 2:
 	{
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 3 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 1 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  3 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  1 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
 		m_weights.push_back(1.f);
 		m_weights.push_back(-3.f);
 		m_weights.push_back(3.f);
@@ -49,10 +49,10 @@ HaarFeature::HaarFeature(Rect& rect, int& type, int& size)
 	}
 	case 3:
 	{
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 3 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 1 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  3 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  1 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
 		m_weights.push_back(1.f);
 		m_weights.push_back(-3.f);
 		m_weights.push_back(3.f);
@@ -61,10 +61,10 @@ HaarFeature::HaarFeature(Rect& rect, int& type, int& size)
 	}
 	case 4:
 	{
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 4 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 3 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 1 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  4 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  3 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  1 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
 		m_weights.push_back(1.f);
 		m_weights.push_back(-2.f);
 		m_weights.push_back(2.f);
@@ -73,10 +73,10 @@ HaarFeature::HaarFeature(Rect& rect, int& type, int& size)
 	}
 	case 5:
 	{
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 4 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 3 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 1 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  4 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  3 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  1 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
 		m_weights.push_back(1.f);
 		m_weights.push_back(-2.f);
 		m_weights.push_back(2.f);
@@ -85,10 +85,10 @@ HaarFeature::HaarFeature(Rect& rect, int& type, int& size)
 	}
 	case 6:
 	{
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 4 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 2 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 1 * size, rect.height + 4 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 1 * size, rect.height + 1 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  4 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  2 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  1 * size,  4 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  1 * size,  1 * size));
 		m_weights.push_back(1.f);
 		m_weights.push_back(-2.f);
 		m_weights.push_back(-2.f);
@@ -97,10 +97,10 @@ HaarFeature::HaarFeature(Rect& rect, int& type, int& size)
 	}
 	case 7:
 	{
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 1 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 1 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 1 * size));
-		m_rects.push_back(Rect(rect.x, rect.y, rect.width + 2 * size, rect.height + 1 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  1 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  1 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  1 * size));
+		m_rects.push_back(Rect(rect.x, rect.y,  2 * size,  1 * size));
 		m_weights.push_back(-1.f);
 		m_weights.push_back(0.f);
 		m_weights.push_back(0.f);
@@ -144,13 +144,16 @@ float HaarFeature::caluHf(Mat& _img)
 		a3 * sum(_img, r3) +
 		a4 * sum(_img, r4);
 
-	//float g_sum = sum(_img, Rect(r1.x, r1.y, _img.cols - 2, _img.rows - 2));
-	//float g_sqsum = g_sum * g_sum;
-	//float mean = g_sum / ((_img.cols - 2) * (_img.rows - 2)),
-	//	sqmean = g_sqsum / ((_img.cols - 2) * (_img.rows - 2));
-	//float varNormFactor = sqrt(sqmean - mean * mean);
-
-
-	return Val / (_img.cols * _img.rows);
+	float g_sum = sum(_img, Rect(r1.x, r1.y, _img.cols - 2, _img.rows - 2));
+	float g_sqsum = g_sum * g_sum;
+	float mean = g_sum / ((_img.cols - 2) * (_img.rows - 2)),
+		sqmean = g_sqsum / ((_img.cols - 2) * (_img.rows - 2));
+	float varNormFactor = sqrt(sqmean - mean * mean);
+	if (g_sum == 0 || varNormFactor == 0)
+	{
+		return Val / (_img.cols * _img.rows);
+	}
+	else
+		return Val / (varNormFactor);
 
 }

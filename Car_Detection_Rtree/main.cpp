@@ -18,80 +18,93 @@ vector<double> window_position;				// 位置标签，存储顺序：x, y, width, height
 vector<Rect> windowrect;					// 位置标签
 
 
-void Getting_Haar_From_frame(Mat& _frame, vector<Point>& _car, Point& f_postion = Point(0, 0), const int& win_width = 200, const int& win_height = 200,
-									const int& scale = 20, const int& feat_num = 6349);
+float Getting_Haar_From_frame(Mat& _frame, vector<Point>& _car, CvRTrees& rtree, const int& feat_n = 3115, Point& f_postion = Point(0, 0),
+	const int& win_width = 200, const int& win_height = 200, const int& step = 20, const int& win_size = 24);
 int read_Haar_from_vector(Mat& _data, vector<S_Haar>& src, Mat& _class);
 
 
 
 const char Rtree_name[] = "1.xml";
 String filename = "x.avi";
-CvRTrees* rtree = new CvRTrees;
+CvRTrees rtree;
 string window_name = "Rtree_car_detection";
 
 
 int main(int argc, char* argv[])
 {
-	Mat frame = imread("..\\input\\cars_sample001.bmp");
+	Mat frame = imread("..\\input\\sign01.bmp");
 	Mat dframe = frame;
-	rtree->clear();
-	rtree->load("../use_xml/one.xml");
-	//VideoCapture capture(filename);
-	//capture >> frame;
-	//int x_size = 128, y_size = 128;
-	CvSize size = cvSize(128, 128);			// Cvsize r = cvSize(int width, int height)
+
+	//Mat imageRGB[3];
+	//split(dframe, imageRGB);
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	equalizeHist(imageRGB[i], imageRGB[i]);
+	//}
+	//merge(imageRGB, 3, dframe);
+
+	cvtColor(dframe, dframe, CV_RGB2GRAY);
+
+
+	rtree.clear();
+	rtree.load("../use_xml/4-1.xml");
+	Rect split0 = Rect(0, 0, dframe.cols, dframe.rows / 2);
+	Rect split1 = Rect(0, dframe.rows / 2, dframe.cols, dframe.rows / 2);
+	Mat frame0 = dframe(split0);
+	Mat frame1 = dframe(split1);
+	
+	
+	vector<Point> car0;
+	vector<Point> car1;
 	double time0 = static_cast<double>(getTickCount());
-	Getting_Haar_From_frame(dframe, 1, size);
-	time0 = ((double)getTickCount() - time0) / getTickFrequency();
-	cout << "提取特征运行时间为：" << time0 << "秒" << endl;
-
-
-	cout << "Done Getting Haar!" << endl;
-
-
-	vector<Rect> car;
-	Mat detect_data = Mat(All_Haar.size(), 5859, CV_32FC1);			// 特征集Mat
-	Mat detect_class = Mat(All_Haar.size(), 1, CV_32FC1);		// 标签矩阵
-	double result;
-	if (read_Haar_from_vector(detect_data, All_Haar, detect_class))
+	float a;
+#pragma omp parallel sections  
+{
+#pragma omp section
 	{
-		Mat detect_sample;
-		for (int dsample = 0; dsample < All_Haar.size(); dsample++)
-		{
-			detect_sample = detect_data.row(dsample);
-			result = rtree->predict(detect_sample, Mat());
-			//printf("Testing Sample %i -> class result (digit %d)\n", dsample, (int) result);
-			// (N.B. openCV uses a floating point decision tree implementation!)  
-			if (fabs(result - 1 )  <= FLT_EPSILON )
-			{
-				int x = window_position[4 * dsample];
-				int y = window_position[4 * dsample + 1];
-				int width = window_position[4 * dsample + 2];
-				int height = window_position[4 * dsample + 3];
-				// if they differ more than floating point error => wrong class  
-				car.push_back(windowrect[dsample]);
-				cout << dsample << ":" << x << "|" << y << "|" << width << "|" << height << endl;
-			}
-			else
-			{
-
-			}
-		}
+		Getting_Haar_From_frame(frame0, car0, rtree,13711); 
 	}
-
-	for (size_t i = 0; i<car.size(); i++)
+#pragma omp section
 	{
+		a = Getting_Haar_From_frame(frame1, car1, rtree,13711);
+	}
+}
+cout << a << endl;
+	time0 = ((double)getTickCount() - time0) / getTickFrequency();
+	cout << "运行时间为：" << time0 << "秒" << endl;
+
+
+	for (size_t i = 0; i<car1.size(); i++)
+	{
+		Rect _rect = Rect(car1[i].x, car1[i].y + dframe.rows/2, 200, 200);
 		//if ((car[i].height > 80) && (car[i].width > 80))
 		{
 			/*	cout << car[i].height << " " << car[i].width << endl;*/
-			rectangle(frame, car[i], Scalar(255, 0, 255), 2);
+			rectangle(frame, _rect, Scalar(255, 0, 255), 2);
 		}
 		//else
 		//{
 		//	continue;
 		//}
 	}
-	imshow(window_name, frame);
+
+	for (size_t i = 0; i<car0.size(); i++)
+	{
+		Rect _rect = Rect(car0[i].x, car0[i].y, 200, 200);
+		//if ((car[i].height > 80) && (car[i].width > 80))
+		{
+			/*	cout << car[i].height << " " << car[i].width << endl;*/
+			rectangle(frame, _rect, Scalar(255, 0, 255), 2);
+		}
+		//else
+		//{
+		//	continue;
+		//}
+	}
+
+	//VideoCapture capture(filename);
+	//capture >> frame;
+	imshow("1", frame);
 	waitKey(0);
 
 	return 0;

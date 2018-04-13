@@ -19,28 +19,30 @@ extern vector<double> window_position;				// 位置标签，存储顺序：x, y, width, he
 extern vector<Rect> windowrect;					// 位置标签
 
 
-extern void Getting_Haar_From_frame(Mat& _frame, vector<Point>& _car, CvRTrees& rtree,Point& f_postion = Point(0, 0), const int& win_width = 200, const int& win_height = 200,
-									const int& scale = 20, const int& feat_num = 6349)
+extern float Getting_Haar_From_frame(Mat& _frame, vector<Point>& _car, CvRTrees& rtree, const int& feat_n = 3115, Point& f_postion = Point(0, 0), const int& win_width = 200, const int& win_height = 200,
+									const int& step = 20, const int& win_size = 24)
 {
 	//Rect dwindow = Rect(0, 0, win_width, win_height);
-	Mat test_data = Mat(1, 6349, CV_32FC1);
-	for (float x = 0; x <= _frame.cols - win_width; x = x + scale) 
+	Mat test_data = Mat(1, feat_n, CV_32FC1);
+	float num = 0;
+	float car_n = 0;
+	for (float x = 0; x <= _frame.cols - win_width; x = x + step) 
 	{
-		for (float y = 0; y <= _frame.rows - win_height; y = y + scale)
+		for (float y = 0; y <= _frame.rows - win_height; y = y + step)
 		{
 			Rect dwindow = Rect(x, y, win_width, win_height);
 			Mat frame_detect = _frame(dwindow);
 			Point pos = Point(x, y);
-
-
+			resize(frame_detect, frame_detect, Size(win_size, win_size));
+			num++;
 
 			Rect rect = Rect(0, 0, 0, 0);
-			int size_max = 12;
+			int size_max = 6;
 			int x_Max, y_Max;
 			vector<HaarFeature> m_feature;
 
 
-					for (int size = 2; size <= size_max; size = size + 2)
+					for (int size = 1; size <= size_max; size = size + 1)
 					{
 						//cout << endl << "尺度大小" << size << endl;
 						for (int type = 0; type <= 7; type++)
@@ -102,6 +104,8 @@ extern void Getting_Haar_From_frame(Mat& _frame, vector<Point>& _car, CvRTrees& 
 								for (rect.y = 0; rect.y <= y_Max; rect.y++)
 								{
 									//cout << rect.x << "|" << rect.y << "   ";
+									if (rect.x + rect.width > 25)
+										cout << size << "|" << type << endl;
 									m_feature.push_back(HaarFeature(rect, type, size));
 								}
 							}
@@ -133,6 +137,7 @@ extern void Getting_Haar_From_frame(Mat& _frame, vector<Point>& _car, CvRTrees& 
 
 					if (fabs(result - 1) <= FLT_EPSILON)
 					{
+						car_n++;
 						_car.push_back(pos);
 					}
 
@@ -140,5 +145,5 @@ extern void Getting_Haar_From_frame(Mat& _frame, vector<Point>& _car, CvRTrees& 
 		}
 
 
-
+		return car_n/num;
 }

@@ -12,15 +12,13 @@
 using namespace std;
 using namespace cv;
 
-S_Haar Single_Haar;							// 单个窗口的 Haar 特征值存储
-vector<S_Haar> All_Haar;					// 所有 Haar 特征值的存储
+
 vector<double> window_position;				// 位置标签，存储顺序：x, y, width, height
 vector<Rect> windowrect;					// 位置标签
 
 
 float Getting_Haar_From_frame(Mat& _frame, vector<Point>& _car, CvRTrees& rtree, const int& feat_n = 3115, Point& f_postion = Point(0, 0),
 	const int& win_width = 200, const int& win_height = 200, const int& step = 20, const int& win_size = 24);
-int read_Haar_from_vector(Mat& _data, vector<S_Haar>& src, Mat& _class);
 
 
 
@@ -47,7 +45,7 @@ int main(int argc, char* argv[])
 
 
 	rtree.clear();
-	rtree.load("../use_xml/4-1.xml");
+	rtree.load("../use_xml/5-3.xml");
 	Rect split0 = Rect(0, 0, dframe.cols, dframe.rows / 2);
 	Rect split1 = Rect(0, dframe.rows / 2, dframe.cols, dframe.rows / 2);
 	Mat frame0 = dframe(split0);
@@ -58,13 +56,13 @@ int main(int argc, char* argv[])
 	vector<Point> car1;
 	double time0 = static_cast<double>(getTickCount());
 	float a;
-#pragma omp parallel sections  
+//#pragma omp parallel sections  
 {
-#pragma omp section
-	{
-		Getting_Haar_From_frame(frame0, car0, rtree,13711); 
-	}
-#pragma omp section
+//#pragma omp section
+	//{
+	//	Getting_Haar_From_frame(frame0, car0, rtree,13711); 
+	//}
+//#pragma omp section
 	{
 		a = Getting_Haar_From_frame(frame1, car1, rtree,13711);
 	}
@@ -88,19 +86,19 @@ cout << a << endl;
 		//}
 	}
 
-	for (size_t i = 0; i<car0.size(); i++)
-	{
-		Rect _rect = Rect(car0[i].x, car0[i].y, 200, 200);
-		//if ((car[i].height > 80) && (car[i].width > 80))
-		{
-			/*	cout << car[i].height << " " << car[i].width << endl;*/
-			rectangle(frame, _rect, Scalar(255, 0, 255), 2);
-		}
-		//else
-		//{
-		//	continue;
-		//}
-	}
+	//for (size_t i = 0; i<car0.size(); i++)
+	//{
+	//	Rect _rect = Rect(car0[i].x, car0[i].y, 200, 200);
+	//	//if ((car[i].height > 80) && (car[i].width > 80))
+	//	{
+	//		/*	cout << car[i].height << " " << car[i].width << endl;*/
+	//		rectangle(frame, _rect, Scalar(255, 0, 255), 2);
+	//	}
+	//	//else
+	//	//{
+	//	//	continue;
+	//	//}
+	//}
 
 	//VideoCapture capture(filename);
 	//capture >> frame;
@@ -110,26 +108,5 @@ cout << a << endl;
 	return 0;
 }
 
-
-int read_Haar_from_vector(Mat& _data, vector<S_Haar>& src, Mat& _class)
-{
-	S_Haar tmp;
-	for (int num = 0; num < src.size(); num++)
-	{
-		tmp = src[num];
-		for (int _row = 0; _row < src[num].size(); _row++)
-		{
-			if (_row < src[num].size() - 1)
-			{
-				_data.at<float>(num, _row) = tmp[_row];
-			}
-			else if (_row = src[num].size() - 1)
-			{
-				_class.at<float>(num, 0) = tmp[_row];
-			}
-		}
-	}
-	return 1;
-}
 
 
